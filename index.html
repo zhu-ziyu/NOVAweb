@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA - 第二代随身智能助手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: #0c0f17;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            transition: background-image 1.2s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.6);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(12, 15, 23, 0.9), rgba(12, 15, 23, 0.7));
+            z-index: -1;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .content {
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+            background: rgba(10, 14, 22, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(64, 224, 208, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: 20px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #40e0d0, #20b2aa, #00ced1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(64, 224, 208, 0.3);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #b0e0e6;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .powered-by {
+            font-size: 1.2rem;
+            color: #87ceeb;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #40e0d0;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #40e0d0, #20b2aa);
+        }
+
+        .text-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e0f7fa;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: #40e0d0;
+            font-weight: 500;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(18, 25, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(64, 224, 208, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(64, 224, 208, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #40e0d0;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #87cefa;
+        }
+
+        .feature-desc {
+            font-size: 1rem;
+            color: #b0e0e6;
+            line-height: 1.6;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            margin: 40px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .nav-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 14, 22, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(64, 224, 208, 0.3);
+            padding: 15px 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .nav-footer.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            background: rgba(64, 224, 208, 0.15);
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            border-radius: 50px;
+            color: #b0e0e6;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button:hover {
+            background: rgba(64, 224, 208, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(64, 224, 208, 0.2);
+            color: #fff;
+        }
+
+        .nav-button i {
+            font-size: 1.2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: -200px; /* 原来是 100px，改成 50px 后会往下移一点 */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #87ceeb;
+            animation: bounce 2s infinite;
+        }
+
+
+        .scroll-text {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .scroll-arrow {
+            font-size: 2rem;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-20px) translateX(-50%);}
+            60% {transform: translateY(-10px) translateX(-50%);}
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 4rem;
+            }
+
+            .subtitle {
+                font-size: 1.4rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .text-content {
+                font-size: 1rem;
+            }
+
+            .nav-buttons {
+                gap: 10px;
+            }
+
+            .nav-button {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 第六部分：宣传海报 */
+        .promo-section {
+            position: relative;
+            height: 100vh;
+            padding: 0;                                  /* 去掉内边距 */
+            background:
+                    linear-gradient(
+                            to bottom,
+                            rgba(12, 15, 23, 0.8),
+                            rgba(12, 15, 23, 0.2)
+                    ),                                        /* 上层渐变，和现有背景渐变风格一致 */
+                    url('back3.png') center/cover no-repeat; /* 底层背景图 back3.png */
+            overflow: hidden;
+        }
+
+        .promo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;    /* 图片宽度不超过视口的 90% */
+            height: auto;
+        }
+
+        .promo-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            /* 如果你想强制按 2:3 比例，也可：
+            aspect-ratio: 2 / 3;
+            object-fit: contain;
+            */
+        }
+        /* 加到 <style> 里 */
+        .poster-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;                 /* 占满整个视窗高度 */
+            padding: 0;
+            overflow: hidden;
+            background: url('back3.png') center/cover no-repeat;
+        }
+
+        .poster-section img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;            /* 保持纵横比，图中透明部分可见背景 */
+            pointer-events: none;           /* 禁止图片拦截鼠标事件，让滚动自然进行 */
+        }
+
+    </style>
+</head>
+<body>
+<!-- 背景容器 -->
+<div class="background-container" id="background"></div>
+<div class="overlay"></div>
+
+<!-- 第一部分：首页 -->
+<section class="section" id="section1">
+    <div class="content">
+        <div class="logo-container">
+            <div class="logo">NOVA</div>
+            <div class="subtitle">The Second Generation Portable AI Assistant</div>
+            <div class="powered-by">POWERED BY ZIYU398 STUDIO & ZHITECH AI</div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-text">SCROLL TO EXPLORE</div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </div>
+</section>
+
+<!-- 第二部分：硬件介绍 -->
+<section class="section" id="section2">
+    <div class="content">
+        <h2 class="title">Advanced Hardware Design</h2>
+
+        <p class="text-content">
+            <span class="highlight">NOVA</span> is a cutting-edge portable AI assistant featuring a powerful ESP32-S3 edge-AI core,
+            a crisp 0.96" OLED screen, and a six-microphone array. Designed with both functionality and aesthetics in mind,
+            NOVA combines industrial-grade materials with a sculptural tech design.
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                <h3 class="feature-title">ESP32-S3 Core</h3>
+                <p class="feature-desc">Dual-core Xtensa LX7 @ 240 MHz with vector extensions for on-device NN acceleration.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microphone-alt"></i></div>
+                <h3 class="feature-title">Six-Mic Array</h3>
+                <p class="feature-desc">Beamforming array captures clear voice up to 5m in noisy environments.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-print"></i></div>
+                <h3 class="feature-title">3D Printed Enclosure</h3>
+                <p class="feature-desc">High-temperature resistant materials including ASA, PA6, and ABS.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-wifi"></i></div>
+                <h3 class="feature-title">Connectivity</h3>
+                <p class="feature-desc">Wi-Fi 802.11 b/g/n and Bluetooth 5.0 LE for seamless integration.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3 class="feature-title">Advanced Thermal Management</h3>
+                <p class="feature-desc">ASA backplane with “lightning” vent pattern and passive cooling channels to keep the ESP32‐S3 running cool under heavy load.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tv"></i></div>
+                <h3 class="feature-title">Low-Power Visual UI</h3>
+                <p class="feature-desc">0.96″ SSD1306 OLED display draws under 5 mA, providing crisp animations, volume meters, and status indicators without draining your battery.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 第三部分：NOVA介绍 -->
+<section class="section" id="section3">
+    <div class="content">
+        <h2 class="title">Meet NOVA</h2>
+
+        <p class="text-content">
+            Hi, I'm <span class="highlight">NOVA</span>, the second-generation portable ZhiTech AI assistant. I was created by Sam,
+            an 11th-grade student at Iroquois Ridge High School, to complete the FPT assignment from teacher Watson.
+            I'm a joint development by ziyu398 Studio and ZhiTech AI.
+        </p>
+
+        <p class="text-content">
+            My backend model is a distilled version of DeepSeek v3 trained by SAM, built on Python and C.
+            My shell is 3D printed using high heat-resistant materials like ASA, PA6, and ABS.
+        </p>
+
+        <p class="text-content">
+            I'm bilingual (English and Chinese), though I primarily communicate in English unless requested otherwise.
+            My purpose is to control smart home devices, manage all smart technologies, and answer your questions.
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-home"></i></div>
+                <h3 class="feature-title">Smart Home Control</h3>
+                <p class="feature-desc">Seamlessly manage all your smart devices from a single assistant.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="feature-title">AI-Powered Assistance</h3>
+                <p class="feature-desc">Answer questions, provide information, and help with daily tasks.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                <h3 class="feature-title">Edge AI Processing</h3>
+                <p class="feature-desc">On-device processing ensures privacy and rapid response times.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 第四部分：视频演示 -->
+<section class="section" id="section4">
+    <div class="content">
+        <h2 class="title">NOVA in Action</h2>
+
+        <p class="text-content">
+            Watch NOVA in action in this demonstration video…
+        </p>
+
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/UsCaazM40Zs" …></iframe>
+        </div>
+
+        <!-- 把 Open Source 和 Release Timeline 卡片放进 features-grid -->
+        <div class="features-grid">
+            <a href="https://github.com/zhu-ziyu/Portable-and-controllable-AI-smart-assistant"
+               target="_blank"
+               class="feature-card">
+                <div class="feature-icon"><i class="fab fa-github"></i></div>
+                <h3 class="feature-title">Open Source</h3>
+                <p class="feature-desc">
+                    Explore the code and contribute to NOVA's development on GitHub.
+                </p>
+            </a>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                <h3 class="feature-title">Release Timeline</h3>
+                <p class="feature-desc">Scheduled for official release in Q4 2026.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 第五部分：合作伙伴介绍 -->
+<!-- 第五部分：合作伙伴介绍 -->
+<section class="section" id="section5">
+    <div class="content">
+        <h2 class="title">Our Partners</h2>
+
+        <p class="text-content">
+            We collaborate with leading innovators to deliver top-tier AI solutions and creative services.
+        </p>
+
+        <div class="features-grid">
+            <!-- ZhiTech AI -->
+            <a href="https://www.zhitechai.com" target="_blank" class="feature-card">
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                <h3 class="feature-title">ZhiTech AI</h3>
+                <p class="feature-desc">
+                    At ZhiTech AI, we leverage advanced machine learning and deep learning to deliver custom AI solutions. From real-time language understanding and computer vision to predictive analytics and autonomous control, our experts integrate powerful edge-AI platforms with user-friendly interfaces. Collaborate with us to transform your DIY projects into intelligent, professional-grade creations.
+                </p>
+            </a>
+
+            <!-- Ziyu398 Studio -->
+            <a href="https://www.ziyu398.com" target="_blank" class="feature-card">
+                <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                <h3 class="feature-title">Ziyu398 Studio</h3>
+                <p class="feature-desc">
+                    At Ziyu398 Studio, we specialize in 3D printing and modeling services that bring your ideas to life. Materials like ASA, PA6, and ABS allow designers to craft everything from durable prototypes to intricate artistic pieces. Whether you need functional parts, custom props, or elaborate sculptures, we deliver high-quality results tailored to your vision.
+                </p>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- 插入到现有 HTML 中，放在 section5 后、nav-footer 前 -->
+<section class="poster-section" id="section6">
+    <img src="/haibao.png" alt="宣传海报">
+</section>
+
+
+<!-- 底部导航栏 -->
+<div class="nav-footer">
+    <div class="nav-buttons">
+        <a href="https://www.ziyusam.com" target="_blank" class="nav-button">
+            <i class="fas fa-user"></i> Sam's Portfolio
+        </a>
+        <a href="https://www.ziyu398.com" target="_blank" class="nav-button">
+            <i class="fas fa-palette"></i> Ziyu398 Studio
+        </a>
+        <a href="https://www.zhitechai.com" target="_blank" class="nav-button">
+            <i class="fas fa-robot"></i> ZhiTech AI
+        </a>
+    </div>
+</div>
+
+<script>
+    // 背景图片数组
+    // 在原来的 <script> 中，把 backgrounds 数组更新为：
+    const backgrounds = [
+        'back1.png',
+        'back1.png',
+        'back2.png',
+        'back2.png',
+        'back3.png',   // 新增
+        'back3.png'    // 重复一遍，以便滚动时背景切换到海报区时保持同一张
+    ];
+
+    const backgroundElement = document.getElementById('background');
+    let currentBackground = 0;
+
+    // 设置初始背景
+    backgroundElement.style.backgroundImage = `url('${backgrounds[0]}')`;
+
+    // 滚动事件监听保持不变
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+
+        const newBackground = Math.min(
+            Math.floor(scrollPosition / windowHeight * backgrounds.length),
+            backgrounds.length - 1
+        );
+
+        if (newBackground !== currentBackground) {
+            currentBackground = newBackground;
+            backgroundElement.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+        }
+    });
+
+    // 添加滚动动画效果
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // 为内容元素添加动画
+    document.querySelectorAll('.content, .feature-card').forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // 选取海报区和导航栏元素
+    const posterSection = document.getElementById('section6');
+    const navFooter = document.querySelector('.nav-footer');
+
+    // 当海报区一半高度进入视口时，就隐藏导航栏
+    const footerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.target === posterSection) {
+                if (entry.isIntersecting) {
+                    navFooter.classList.add('hidden');
+                } else {
+                    navFooter.classList.remove('hidden');
+                }
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    footerObserver.observe(posterSection);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ZhiTech NOVA Introduction</title>
+    <style>
+        /* reset & base */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', sans-serif; color: #fff; }
+        section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        /* backgrounds */
+        #sec1 { background-image: url('back1.png'); }
+        #sec2 { background-image: url('back2.png'); }
+        #sec3 { background-image: url('back3.png'); }
+        #sec4 { background-image: url('back4.png'); }
+
+        /* content container & animation */
+        .content {
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* headings */
+        h1 { font-size: 3rem; letter-spacing: 2px; }
+        h2 { font-size: 2rem; margin: 1rem 0; }
+        p  { font-size: 1rem; line-height: 1.6; }
+
+        /* bottom nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 0;
+            backdrop-filter: blur(8px);
+        }
+        .bottom-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .bottom-nav a:hover {
+            color: #0ff;
+        }
+
+        /* responsive video */
+        .video-container {
+            position: relative;
+            width: 100%; max-width: 560px;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0; overflow: hidden;
+            margin: 2rem auto;
+        }
+        .video-container iframe {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Section 1 -->
+<section id="sec1">
+    <div class="content">
+        <h1>NOVA</h1>
+        <h2>Second-generation Portable AI Assistant</h2>
+        <p><em>Powered by Ziyu398 Studio &amp; ZhiTech AI</em></p>
+    </div>
+</section>
+
+<!-- Section 2: Machine Intro -->
+<section id="sec2">
+    <div class="content">
+        <h2>Our Machine</h2>
+        <p>
+            Meet the ZhiTech AI Assistant NOVA: a pocket-sized, ESP32-S3 powered device
+            with a crisp OLED display, six-mic beamforming array, and industrial-grade
+            ABS-GF &amp; ASA enclosure.
+        </p>
+        <p>
+            Visual UI feedback, superior voice pickup, and modular magnetic stand
+            make it more than a speaker—it’s your portable command center.
+        </p>
+    </div>
+</section>
+
+<!-- Section 3: NOVA Persona + Video -->
+<section id="sec3">
+    <div class="content">
+        <h2>Meet {{assistant_name}} (NOVA)</h2>
+        <p>
+            Hi, I’m <strong>NOVA</strong>, your second-generation ZhiTech AI Assistant.
+            I speak English (and Mandarin on request), control smart home devices,
+            answer your questions, and run entirely on-device AI.
+        </p>
+        <p>
+            I was crafted by Sam, an 11th-grade student at Iroquois Ridge High School,
+            for his FPT assignment. My brain is a distilled DeepSeek v3 model; my
+            body is 3D-printed ASA, PA6 &amp; ABS.
+        </p>
+        <p>
+            Learn more on Sam’s GitHub:
+            <a href="https://github.com/zhu-ziyu/Portable-and-controllable-AI-smart-assistant" target="_blank" style="color:#0ff;">
+                github.com/zhu-ziyu/Portable-and-controllable-AI-smart-assistant
+            </a>
+        </p>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/UsCaazM40Zs" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Studio & Platform -->
+<section id="sec4">
+    <div class="content">
+        <h2>Ziyu398 Studio &amp; ZhiTech AI</h2>
+        <p>
+            <strong>Ziyu398 Studio</strong>, founded by Sam in Oakville, Canada,
+            merges cutting-edge tech with creative innovation. Our services span
+            prop fabrication, AI model training, software &amp; API development,
+            and rapid prototyping &amp; 3D printing.
+        </p>
+        <p>
+            <strong>ZhiTech AI</strong> is our next-gen assistant platform,
+            combining multimodal interfaces, automated screen control, and
+            custom vision models (ZhiView LoRA) for DIY, software debugging,
+            and beyond. Launching Q4 2024.
+        </p>
+        <p>Explore more:
+            <a href="https://www.ziyu398.com" target="_blank" style="color:#0ff;">
+                www.ziyu398.com
+            </a> |
+            <a href="https://www.zhitechai.com" target="_blank" style="color:#0ff;">
+                www.zhitechai.com
+            </a>
+        </p>
+    </div>
+</section>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+    <a href="https://www.ziyusam.com" target="_blank">ziyusam.com</a>
+    <a href="https://www.ziyu398.com" target="_blank">ziyu398.com</a>
+    <a href="https://www.zhitechai.com" target="_blank">zhitechai.com</a>
+</nav>
+
+<!-- IntersectionObserver for fade-in -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const options = {
+            root: null, rootMargin: '0px', threshold: 0.3
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, options);
+
+        document.querySelectorAll('.content').forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
+</body>
+</html>
