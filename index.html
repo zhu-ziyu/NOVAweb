@@ -573,22 +573,18 @@
     const backgroundElement = document.getElementById('background');
     let currentBackground = 0;
 
-    // 设置初始背景
+    // 初始背景
     backgroundElement.style.backgroundImage = `url('${backgrounds[0]}')`;
 
-    // 滚动事件监听保持不变
+    // 滚动监听，按视窗高度切图
     window.addEventListener('scroll', () => {
-        const scrollPosition = window.scrollY;
-        const windowHeight = window.innerHeight;
-
-        const newBackground = Math.min(
-            Math.floor(scrollPosition / windowHeight * backgrounds.length),
-            backgrounds.length - 1
-        );
-
-        if (newBackground !== currentBackground) {
-            currentBackground = newBackground;
-            backgroundElement.style.backgroundImage = `url('${backgrounds[currentBackground]}')`;
+        const scrollY = window.scrollY;
+        const vh = window.innerHeight;
+        // 计算当前区块索引
+        const idx = Math.min(Math.floor(scrollY / vh), backgrounds.length - 1);
+        if (idx !== currentBackground) {
+            currentBackground = idx;
+            backgroundElement.style.backgroundImage = `url('${backgrounds[idx]}')`;
         }
     });
 
